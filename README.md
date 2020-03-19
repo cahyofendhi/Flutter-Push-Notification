@@ -1,8 +1,21 @@
 # Flutter_Push_Notification
 
-implementation push notification
+implementation push notification using [oneSignal](https://pub.dev/packages/onesignal_flutter)
 
 ## Getting Started
+
+![Screenshot](notif-ios.png)![Screenshot](notif-andro.jpeg)
+
+## Getting Started
+
+to run this project
+
+```
+  flutter pub get
+
+  flutter run
+
+```
 
 This project is a starting point for a Flutter application.
 
