@@ -24,13 +24,13 @@ class _MyAppState extends State<MyApp> {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
     });
-    OneSignal.shared
-        .setNotificationReceivedHandler(_handleNotificationReceived);
+    OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+    OneSignal.shared.setNotificationReceivedHandler(_handleNotificationReceived);
   }
 
   /// handle retrieve notification
   void _handleNotificationReceived(OSNotification notification) {
-    print('Notification = ${notification.toString()}');
+    print('Notification Message = ${notification.payload.body}');
   }
 
   @override
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Push Notification'),
     );
   }
 }
@@ -54,13 +54,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  String _message = '';
 
   @override
   Widget build(BuildContext context) {
@@ -68,25 +62,52 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 25.0),
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                onPressed: () => _sendPushNotification(),
+                child: Text(
+                  'Send Push Notification',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+                color: Colors.blue,
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Message : ',
+                style: TextStyle(
+                    color: Colors.black, fontSize: 20, letterSpacing: .50),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                _message,
+                style: TextStyle(
+                    fontSize: 18, color: Colors.black, letterSpacing: 0.3),
+              )
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  /// action push notification
+  Future<void> _sendPushNotification() async {
+    final status = await OneSignal.shared.getPermissionSubscriptionState();
+    final playerId = status.subscriptionStatus.userId;
+    final notification = OSCreateNotification(
+        playerIds: [playerId],
+        content: 'Flutter Push Notification',
+        heading: "Notification");
+    final response = await OneSignal.shared.postNotification(notification);
+    setState(() => _message = "Status Response: $response");
   }
 }
