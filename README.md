@@ -4,7 +4,7 @@ implementation push notification using [oneSignal](https://pub.dev/packages/ones
 
 ## Getting Started
 
-![Screenshot](notif-ios.png)![Screenshot](notif-andro.jpeg)
+![Screenshot](notif-ios.png)!    [Screenshot](notif-andro.jpeg)
 
 ## Getting Started
 

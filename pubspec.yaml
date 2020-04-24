@@ -26,6 +26,13 @@ dependencies:
   cupertino_icons: ^0.1.3
   # oneSignal push notification
   onesignal_flutter: ^2.0.0
+  # firebase messaging
+  firebase_analytics: any
+  firebase_messaging: ^6.0.13
+  firebase_core: ^0.4.0
+  http: ^0.12.0+4
+  # local push notification
+  flutter_local_notifications: ^1.4.1
 
 dev_dependencies:
   flutter_test:
