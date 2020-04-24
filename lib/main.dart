@@ -1,6 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:Flutter_Push_Notification/env.dart';
+import 'package:Flutter_Push_Notification/firebase/push_nofitications.dart';
+import 'package:Flutter_Push_Notification/util/notification_local.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -12,10 +19,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   @override
   void initState() {
     _initOneSignal();
     super.initState();
+    _initFirebaseMessaging();
+    NotificationLocal(context);
   }
 
   /// initialize setup oneSignal push notification
@@ -24,13 +35,40 @@ class _MyAppState extends State<MyApp> {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
     });
-    OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
-    OneSignal.shared.setNotificationReceivedHandler(_handleNotificationReceived);
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    OneSignal.shared
+        .setNotificationReceivedHandler(_handleNotificationReceived);
   }
 
   /// handle retrieve notification
   void _handleNotificationReceived(OSNotification notification) {
     print('Notification Message = ${notification.payload.body}');
+  }
+
+  // initialize firebase messaging
+  void _initFirebaseMessaging() async {
+    // for iOS request permission
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(
+          sound: true, badge: true, alert: true, provisional: false),
+    );
+    _firebaseMessaging.autoInitEnabled();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("Message: $message");
+        NotificationLocal.show();
+      },
+      onBackgroundMessage: PushNotificationsManager.fcmBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    String token = await _firebaseMessaging.getToken();
+    print('FirebaseMessaging Token : $token');
   }
 
   @override
@@ -54,6 +92,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _message = '';
 
   @override
@@ -73,7 +112,18 @@ class _MyHomePageState extends State<MyHomePage> {
               RaisedButton(
                 onPressed: () => _sendPushNotification(),
                 child: Text(
-                  'Send Push Notification',
+                  'oneSignal Send Push Notification',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+                color: Colors.blue,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              RaisedButton(
+                onPressed: () => _sendAndRetrieveMessage(),
+                child: Text(
+                  'Firebase Send Push Notification',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 color: Colors.blue,
@@ -99,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  /// action push notification
+  /// action oneSignal push notification
   Future<void> _sendPushNotification() async {
     final status = await OneSignal.shared.getPermissionSubscriptionState();
     final playerId = status.subscriptionStatus.userId;
@@ -109,5 +159,32 @@ class _MyHomePageState extends State<MyHomePage> {
         heading: "Notification");
     final response = await OneSignal.shared.postNotification(notification);
     setState(() => _message = "Status Response: $response");
+  }
+
+  // action firebase send push notification
+  Future<void> _sendAndRetrieveMessage() async {
+    final response = await http.post(
+      ENDPOINT_FCM_SEND,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$SERVER_TOKEN_FIREBASE',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': 'this is a body',
+            'title': 'this is a title'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          'to': await _firebaseMessaging.getToken(),
+        },
+      ),
+    );
+    setState(() => _message = 'Firebase Status = ${response.statusCode}');
   }
 }

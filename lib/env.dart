@@ -1,1 +1,3 @@
 const APP_ID_ONE_SIGNAL = '78a08359-04fe-4a29-b25b-6362c33d5e2e'; // please register app in oneSignal and replace with your app id
+const SERVER_TOKEN_FIREBASE = 'AAAAr4RyN0M:APA91bHwhfVv29fGDzuaGoe0mB95HSMxZq5q8Q2dfOU88M2qflNrFwBjdv_42HJi1C5F56J5k7uRiFjxvDIquZlZLExg274bZ0bjYsxFYeWGRO6OnUYAhfsxHTNpaQvOIOYfnnbOCimb'; // register in firebase console
+const ENDPOINT_FCM_SEND = 'https://fcm.googleapis.com/fcm/send';  

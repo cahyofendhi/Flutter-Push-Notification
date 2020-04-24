@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "753841354563",
+    "firebase_url": "https://flutter-push-notif-57b34.firebaseio.com",
+    "project_id": "flutter-push-notif-57b34",
+    "storage_bucket": "flutter-push-notif-57b34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753841354563:android:9e23fe8778094619cfe1f6",
+        "android_client_info": {
+          "package_name": "com.bcr.Flutter_Push_Notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753841354563-fdi61l5m7jecb6k4g04cooavet0u68md.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bcr.Flutter_Push_Notification",
+            "certificate_hash": "131943a874df0a37a9cffa76771fca7e15609f10"
+          }
+        },
+        {
+          "client_id": "753841354563-t56pe226q8fngsik8lmap8fl9rmahf7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-OzXFC5JtVSisPsZEcyAwqnhsAiTuoUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753841354563-t56pe226q8fngsik8lmap8fl9rmahf7v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753841354563-mls7kpsd1m0g6rb2b0lkjt2jt4msnutv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bcr.FlutterSocialAuth"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753841354563:android:29bde06023b8d291cfe1f6",
+        "android_client_info": {
+          "package_name": "com.bcr.Flutter_Social_Auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753841354563-9g5g445iplkm0m28a7h420n9o628vmnh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bcr.Flutter_Social_Auth",
+            "certificate_hash": "131943a874df0a37a9cffa76771fca7e15609f10"
+          }
+        },
+        {
+          "client_id": "753841354563-t56pe226q8fngsik8lmap8fl9rmahf7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-OzXFC5JtVSisPsZEcyAwqnhsAiTuoUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753841354563-t56pe226q8fngsik8lmap8fl9rmahf7v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753841354563-mls7kpsd1m0g6rb2b0lkjt2jt4msnutv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bcr.FlutterSocialAuth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
