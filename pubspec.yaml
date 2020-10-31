@@ -14,7 +14,7 @@ description: implementation push notification
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.9.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -25,14 +25,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   # oneSignal push notification
-  onesignal_flutter: ^2.0.0
+  onesignal_flutter: ^2.6.1
   # firebase messaging
-  firebase_analytics: any
-  firebase_messaging: ^6.0.13
-  firebase_core: ^0.4.0
+  firebase_messaging: ^7.0.0
+  firebase_core: ^0.5.0
+  firebase_analytics: ^6.0.0
   http: ^0.12.0+4
   # local push notification
-  flutter_local_notifications: ^1.4.1
+  flutter_local_notifications: ^1.4.4+4
 
 dev_dependencies:
   flutter_test:
